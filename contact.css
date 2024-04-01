@@ -1,0 +1,53 @@
+body{
+    background-image: url(back.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.contact_section {
+    padding: 50px 0;
+}
+
+.form_container {
+    background-color: #f8f9fa69; /* Light gray background */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+    margin-top: 130px;
+}
+
+.heading_container h2 {
+    margin-bottom: 20px;
+    color: #333; /* Dark text color */
+}
+
+.form_container input[type="text"],
+.form_container input[type="email"],
+.form_container .message-box {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px;
+    transition: border-color 0.3s ease; /* Smooth transition for border color change */
+}
+
+.form_container input[type="text"]:focus,
+.form_container input[type="email"]:focus,
+.form_container .message-box:focus {
+    border-color: #007bff; /* Blue border color when focused */
+}
+
+.form_container button {
+    background-color: #007bff; /* Blue button background */
+    color: #fff; /* White button text color */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for background color change */
+}
+
+.form_container button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proceed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            background-image: url(back.png);
+            background-position: center;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.753);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: black solid 0.5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: black;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #transactionDetails {
+            margin-bottom: 20px;
+        }
+
+        .center {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Transaction Details</h1>
+
+        <form id="transactionForm">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br>
+            
+            <label for="number">Number:</label><br>
+            <input type="tel" id="number" name="number" required pattern="[0-9]{10}"><br>
+            
+            <label for="location">Location:</label><br>
+            <input type="text" id="location" name="location" required><br>
+
+            <div id="transactionDetails"></div>
+
+            <label for="amount">Amount:</label><br>
+            <input type="number" id="amount" name="amount" required min="0"><br>
+
+            <button type="submit">Pay Now</button>
+        </form>
+
+        <div id="transactionCompletedMsg" class="center"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            displayTransactionDetails();
+        });
+    
+        document.getElementById("transactionForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            // Get the current date and time
+            var currentTime = new Date();
+            var hours = currentTime.getHours();
+            var minutes = currentTime.getMinutes();
+            var seconds = currentTime.getSeconds();
+            var formattedTime = hours + ":" + minutes + ":" + seconds;
+    
+            // Display payment confirmation and time
+            var transactionDetailsContainer = document.getElementById("transactionDetails");
+            var amount = document.getElementById("amount").value;
+            transactionDetailsContainer.innerHTML = "<p>Payment of " + amount + "₱ received at " + formattedTime + "</p>";
+    
+            // Display transaction completed message
+            var transactionCompletedMsg = document.getElementById("transactionCompletedMsg");
+            transactionCompletedMsg.innerHTML = "<h2>Your transaction is completed.</h2>";
+    
+            // Redirect to transaction.html after payment completion
+            window.location.href = "transaction.html";
+        });
+    
+        function displayTransactionDetails() {
+            var orders = JSON.parse(localStorage.getItem("orders")) || [];
+            var transactionDetailsContainer = document.getElementById("transactionDetails");
+            var total = 0;
+    
+            if (orders.length > 0) {
+                var transactionHTML = "<h2>Your Order:</h2>";
+                transactionHTML += "<ul>";
+    
+                orders.forEach(function(order) {
+                    var itemName = order.pizzaName || order.pastaName || order.starterName;
+                    var itemPrice = parseFloat(order.price) * parseInt(order.quantity);
+                    transactionHTML += "<li>" + order.quantity + " x " + itemName + " - " +'₱'+ itemPrice.toFixed(2) + "</li>";
+                    total += itemPrice;
+                });
+    
+                transactionHTML += "</ul>";
+                transactionHTML += "<p>Total Price: " + '₱'+ total.toFixed(2) + "</p>";
+    
+                transactionDetailsContainer.innerHTML = transactionHTML;
+            } else {
+                transactionDetailsContainer.innerHTML = "<p>No orders added yet.</p>";
+            }
+        }
+    </script>
+    
+</body>
+</html>
